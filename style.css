@@ -1,33 +1,43 @@
 body {
-  background-color: black;
-  color: white;
-  font-family: monospace;
   margin: 0;
-  padding: 1rem;
+  padding: 0;
+  background: black;
+  color: #33ff33;
+  font-family: monospace;
+  font-size: 14px;
+  overflow: hidden; /* hides scrollbars */
+}
+
+#terminal {
+  padding: 20px;
+  white-space: pre-wrap;
+  height: 100vh;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-body::-webkit-scrollbar {
+
+#terminal::-webkit-scrollbar {
   display: none;
 }
 
 .line {
-  white-space: pre-wrap;
   line-height: 1.5;
 }
 
 .command-line {
-  margin-top: 1rem;
+  display: flex;
 }
 
-.cursor::after {
-  content: '_';
-  animation: blink 1s steps(2, start) infinite;
+.cursor {
+  animation: blink 1s step-end infinite;
 }
 
 @keyframes blink {
-  to {
-    visibility: hidden;
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
   }
 }
