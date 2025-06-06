@@ -13,8 +13,8 @@ document.addEventListener('keydown', (e) => {
 
   if (e.key === "Enter") {
     const command = buffer.trim().toLowerCase();
-    appendCommand(command);
-    handleCommand(command);
+    printCommand(command); // Print the prompt + command entered
+    runCommand(command);   // Run associated logic
     buffer = "";
     input.textContent = "";
     return;
@@ -26,39 +26,42 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-function appendCommand(cmd) {
+function printCommand(cmd) {
   const line = document.createElement("div");
   line.classList.add("line");
   line.textContent = "C:\\Users\\dev> " + cmd;
-  output.innerHTML = ""; // Clear previous content
   output.appendChild(line);
 }
 
-function appendLine(text) {
+function appendLine(text = "") {
   const line = document.createElement("div");
   line.classList.add("line");
   line.textContent = text;
   output.appendChild(line);
 }
 
-function handleCommand(cmd) {
+function runCommand(cmd) {
   switch (cmd) {
     case "1":
       appendLine("- PRIMARY IDENT: cuntrera");
-      appendLine("- ACTIVE SINCE: 2016\n");
+      appendLine("- ACTIVE SINCE: 2016");
+      appendLine("");
       appendLine("[ CORE SKILLS ]");
       appendLine("• Advanced Reverse Engineering:");
       appendLine("  - Custom shellcode development (x86/x64/ARM)");
       appendLine("  - Polymorphic payload engines");
-      appendLine("  - Anti-sandbox techniques\n");
+      appendLine("  - Anti-sandbox techniques");
+      appendLine("");
       appendLine("• Network Operations:");
       appendLine("  - C2 infrastructure architecture");
       appendLine("  - DNS/ICMP covert channels");
-      appendLine("  - Cloud provider exploitation (AWS/Azure/GCP)\n");
+      appendLine("  - Cloud provider exploitation (AWS/Azure/GCP)");
+      appendLine("");
       appendLine("• Human Exploitation:");
       appendLine("  - Targeted social engineering frameworks");
       appendLine("  - OSINT-driven pretext development");
-      appendLine("  - Technical deception systems\n");
+      appendLine("  - Technical deception systems");
+      appendLine("");
       appendLine("• Web Intrusion:");
       appendLine("  - Advanced Google dorking (GHDB extended)");
       appendLine("  - Blind injection techniques");
@@ -95,4 +98,30 @@ function handleCommand(cmd) {
       appendLine(`'${cmd}' is not recognized as an internal or external command.`);
       break;
   }
+
+  // Add space and move prompt after output
+  appendLine(""); // spacing
+  addPrompt();
 }
+
+function addPrompt() {
+  const newInputContainer = document.createElement("div");
+  newInputContainer.classList.add("line");
+
+  const pathSpan = document.createElement("span");
+  pathSpan.textContent = "C:\\Users\\dev> ";
+
+  const inputSpan = document.createElement("span");
+  inputSpan.classList.add("new-input");
+
+  const blinker = document.createElement("span");
+  blinker.classList.add("blinker");
+  blinker.textContent = "_";
+
+  newInputContainer.appendChild(pathSpan);
+  newInputContainer.appendChild(inputSpan);
+  newInputContainer.appendChild(blinker);
+
+  output.appendChild(newInputContainer);
+}
+
