@@ -1,8 +1,9 @@
 const terminal = document.getElementById('terminal');
 const output = document.getElementById('output');
-const cmdInput = document.getElementById('cmdInput');
+const userInput = document.getElementById('userInput');
 const audio = document.getElementById('bg-audio');
 
+let inputBuffer = '';
 let hasPlayedAudio = false;
 
 const responses = {
@@ -61,40 +62,47 @@ W0s+fr+Up9d0IuUBAJjXYakON/5BqEEktUhwUGc+jO7LpbOughJBrH6zeGIB
 };
 
 document.addEventListener('keydown', (event) => {
-  const key = event.key.toLowerCase();
+  const key = event.key;
 
-  if (['1', '2', '3', 'p'].includes(key)) {
-    event.preventDefault();
+  // Handle ENTER
+  if (key === 'Enter') {
+    const trimmedInput = inputBuffer.trim().toLowerCase();
+    if (trimmedInput in responses) {
+      const inputLine = document.createElement('div');
+      inputLine.className = 'line';
+      inputLine.textContent = `C:\\Users\\dev> ${trimmedInput}`;
+      output.innerHTML = ''; // Clear previous
+      output.appendChild(inputLine);
 
-    // Clear previous command output
-    output.innerHTML = '';
+      const responseBlock = document.createElement('pre');
+      responseBlock.className = 'line';
+      responseBlock.textContent = responses[trimmedInput];
+      output.appendChild(responseBlock);
 
-    // Append user input
-    const inputLine = document.createElement('div');
-    inputLine.className = 'line';
-    inputLine.textContent = `C:\\Users\\dev> ${key}`;
-    output.appendChild(inputLine);
+      // Scroll terminal
+      terminal.scrollTop = terminal.scrollHeight;
 
-    // Append response
-    const responseBlock = document.createElement('pre');
-    responseBlock.className = 'line';
-    responseBlock.textContent = responses[key];
-    output.appendChild(responseBlock);
-
-    // Scroll to bottom
-    terminal.scrollTop = terminal.scrollHeight;
-
-    // Play audio if not already started
-    if (!hasPlayedAudio) {
-      try {
-        audio.volume = 0.5;
-        audio.play();
+      // Play audio once on first user input
+      if (!hasPlayedAudio) {
+        audio.volume = 0.6;
+        audio.play().catch(err => console.error('Audio failed:', err));
         hasPlayedAudio = true;
-      } catch (err) {
-        console.log('Audio play failed:', err);
       }
     }
+
+    inputBuffer = '';
+    userInput.textContent = '';
+  }
+
+  // Handle BACKSPACE
+  else if (key === 'Backspace') {
+    inputBuffer = inputBuffer.slice(0, -1);
+    userInput.textContent = inputBuffer;
+  }
+
+  // Handle other keys
+  else if (key.length === 1) {
+    inputBuffer += key;
+    userInput.textContent = inputBuffer;
   }
 });
-
-
