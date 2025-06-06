@@ -4,7 +4,7 @@ body {
   font-family: 'Courier New', monospace;
   margin: 0;
   padding: 1rem;
-  overflow-x: hidden;
+  overflow: hidden; /* disables scrollbars */
 }
 
 #terminal {
@@ -25,4 +25,3 @@ body {
     opacity: 0;
   }
 }
-
