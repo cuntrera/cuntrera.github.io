@@ -1,7 +1,8 @@
-@font-face {
+/* Remove @font-face block completely */
+/* @font-face {
   font-family: 'RoyalInitialen';
   src: url('RoyalInitialen.ttf') format('truetype');
-}
+} */
 
 body {
   margin: 0;
@@ -45,10 +46,9 @@ body {
   50% { opacity: 0; }
 }
 
+/* Remove styling from .cuntrera entirely */
 .cuntrera {
-  font-family: 'RoyalInitialen', serif;
-  font-size: 24px;
-  letter-spacing: 1px;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
 }
-
-
