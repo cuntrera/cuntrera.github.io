@@ -1,147 +1,40 @@
-document.addEventListener('DOMContentLoaded', function () {
-  const terminal = document.getElementById('terminal');
-  const cursor = document.createElement('span');
-  cursor.classList.add('cursor');
-  cursor.textContent = ' ';
-  terminal.appendChild(cursor);
-  terminal.focus();
+const terminal = document.getElementById('terminal');
+const cursor = document.getElementById('cursor');
 
-  const audio = new Audio('sound.mp3');
-  audio.loop = true;
-  audio.volume = 0.4;
-  audio.play();
+let stage = 0;
 
-  let currentLine = '';
-  let outputHistory = [];
-  let scrollIndex = 0;
+document.addEventListener('keydown', (e) => {
+  if (stage === 0 && (e.key === '1' || e.key === '2' || e.key === '3')) {
+    cursor.remove();
+    const command = `C:\\Users\\dev> ${e.key}`;
+    terminal.innerHTML += `\n${command}`;
 
-  const whoamiContent = `
-███████████████████████████████████████
-█                                     █
-█             Cuntrera               █
-█                                     █
-███████████████████████████████████████
+    if (e.key === '1') {
+      terminal.innerHTML += `\n\n- PRIMARY IDENT: cuntrera\n- ACTIVE SINCE: 2016\n\n[ CORE SKILLS ]\n• Advanced Reverse Engineering:\n  - Custom shellcode development (x86/x64/ARM)\n  - Polymorphic payload engines\n  - Anti-sandbox techniques\n\n• Network Operations:\n  - C2 infrastructure architecture\n  - DNS/ICMP covert channels\n  - Cloud provider exploitation (AWS/Azure/GCP)\n\n• Human Exploitation:\n  - Targeted social engineering frameworks\n  - OSINT-driven pretext development\n  - Technical deception systems\n\n• Web Intrusion:\n  - Advanced Google dorking (GHDB extended)\n  - Blind injection techniques\n  - CMS/API vulnerability research\n`;
+    }
 
-- PRIMARY IDENT: cuntrera
-- ACTIVE SINCE: 2016
+    if (e.key === '2') {
+      terminal.innerHTML += `\n\n[ NETWORK - Communications ]\nPress [P] to show PGP key`;
+      stage = 'awaitingPGP';
+    }
 
-[ CORE SKILLS ]
-• Advanced Reverse Engineering:
-  - Custom shellcode development (x86/x64/ARM)
-  - Polymorphic payload engines
-  - Anti-sandbox techniques
+    if (e.key === '3') {
+      terminal.innerHTML += `\n\n[ OPSEC - Protocols ]\n(Placeholder for operational security content)`;
+    }
 
-• Network Operations:
-  - C2 infrastructure architecture
-  - DNS/ICMP covert channels
-  - Cloud provider exploitation (AWS/Azure/GCP)
-
-• Human Exploitation:
-  - Targeted social engineering frameworks
-  - OSINT-driven pretext development
-  - Technical deception systems
-
-• Web Intrusion:
-  - Advanced Google dorking (GHDB extended)
-  - Blind injection techniques
-  - CMS/API vulnerability research
-`;
-
-  const networkContent = `
-[ NETWORK - Communications ]
-
-• PGP (4096-bit RSA)
-• Signal Protocol
-• OTR Messaging
-• Encrypted SMTP relays
-• DNS over HTTPS (DoH)
-• Blockchain-based messaging (experimental)
-`;
-
-  const opsecContent = `
-[ OPSEC - Protocols ]
-
-• Air-gapped development
-• Hardware tokens (YubiHSM, Nitrokey)
-• Isolated VMs with no persistence
-• VPN chaining + Tor
-• MAC spoofing, randomized
-• Time-based traffic obfuscation
-`;
-
-  function addOutput(text) {
-    const line = document.createElement('div');
-    line.className = 'output';
-    line.textContent = text;
-    terminal.insertBefore(line, cursor);
-    outputHistory.push(line);
-    scrollIndex = outputHistory.length - 1;
+    terminal.innerHTML += `\n\nC:\\Users\\dev><span id="cursor">_</span>`;
     scrollToBottom();
   }
 
-  function updatePrompt() {
-    const prompt = document.createElement('div');
-    prompt.className = 'input-line';
-    prompt.textContent = 'C:\\Users\\dev> ' + currentLine;
-    terminal.insertBefore(prompt, cursor);
-  }
-
-  function scrollToBottom() {
-    terminal.scrollTop = terminal.scrollHeight;
-  }
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Backspace') {
-      e.preventDefault();
-      currentLine = currentLine.slice(0, -1);
-      updateInputLine();
-    } else if (e.key === 'Enter') {
-      addOutput('C:\\Users\\dev> ' + currentLine);
-      processCommand(currentLine.trim());
-      currentLine = '';
-      updatePrompt();
-      updateInputLine();
-    } else if (e.key.length === 1) {
-      currentLine += e.key;
-      updateInputLine();
-    } else if (e.key === 'ArrowUp') {
-      if (scrollIndex > 0) scrollIndex--;
-      outputHistory[scrollIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
-    } else if (e.key === 'ArrowDown') {
-      if (scrollIndex < outputHistory.length - 1) scrollIndex++;
-      outputHistory[scrollIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  });
-
-  function updateInputLine() {
-    let existing = terminal.querySelector('.input-line');
-    if (existing) terminal.removeChild(existing);
-
-    const newLine = document.createElement('div');
-    newLine.className = 'input-line';
-    newLine.textContent = 'C:\\Users\\dev> ' + currentLine;
-    terminal.insertBefore(newLine, cursor);
+  if (stage === 'awaitingPGP' && (e.key === 'p' || e.key === 'P')) {
+    cursor.remove();
+    terminal.innerHTML += `\n\n-----BEGIN PGP PUBLIC KEY BLOCK-----\n\nmDMEaEJaFBYJKwYBBAHaRw8BAQdACwa2xDEFWFBm2taqfG7fZMvOHH2+TgWWrPvU\nfhngqT+0IWN1bnRyZXJhIDxpdHNoZWN0b3IxOTkwQGdtYWkuY29tPoiZBBMWCgBB\nFiEEp1uZDtAUxG665eZZKotvgNvZ4qkFAmhCWhQCGwMFCQWkexwFCwkIBwICIgIG\nFQoJCAsCBBYCAwECHgcCF4AACgkQKotvgNvZ4qm7EAEAows8gULc+Ebs8GKlv9rD\nPMAHJU1NEP+DmqyJhDJGF1oA/Arky4QujC/iUUN3MTc83qWCDNOSmUkRNnDJnNNV\nz6YOuDgEaEJaFBIKKwYBBAGXVQEFAQEHQP0XUTlzy0JqH879B15jaqhc1geZpDs7\n6FPfngyQwdtqAwEIB4h+BBgWCgAmFiEEp1uZDtAUxG665eZZKotvgNvZ4qkFAmhC\nWhQCGwwFCQWkexwACgkQKotvgNvZ4qlCYgD+Oh2BSDbm79JcW8baD0iTfrgfnMN1\nW0s+fr+Up9d0IuUBAJjXYakON/5BqEEktUhwUGc+jO7LpbOughJBrH6zeGIB\n=yyk0\n\n-----END PGP PUBLIC KEY BLOCK-----`;
+    terminal.innerHTML += `\n\nC:\\Users\\dev><span id="cursor">_</span>`;
     scrollToBottom();
+    stage = 0;
   }
-
-  function processCommand(cmd) {
-    if (cmd === '1') {
-      addOutput(whoamiContent);
-    } else if (cmd === '2') {
-      addOutput(networkContent);
-    } else if (cmd === '3') {
-      addOutput(opsecContent);
-    } else {
-      addOutput(`'${cmd}' is not recognized as an internal or external command`);
-    }
-  }
-
-  // Initial screen with blank line between menu and first prompt
-  addOutput('Microsoft Windows [Version 10.0.19045.5854]');
-  addOutput('(c) Microsoft Corporation. All rights reserved.\n');
-  addOutput('[1] WHOAMI - Tech Info');
-  addOutput('[2] NETWORK - Communications');
-  addOutput('[3] OPSEC - Protocols');
-  addOutput(''); // Blank line between menu and prompt
-  updatePrompt();
 });
+
+function scrollToBottom() {
+  terminal.scrollTop = terminal.scrollHeight;
+}
