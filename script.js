@@ -64,44 +64,37 @@ W0s+fr+Up9d0IuUBAJjXYakON/5BqEEktUhwUGc+jO7LpbOughJBrH6zeGIB
 document.addEventListener('keydown', (event) => {
   const key = event.key;
 
-  // Handle ENTER
   if (key === 'Enter') {
     const trimmedInput = inputBuffer.trim().toLowerCase();
-    if (trimmedInput in responses) {
-      const inputLine = document.createElement('div');
-      inputLine.className = 'line';
-      inputLine.textContent = `C:\\Users\\dev> ${trimmedInput}`;
-      output.innerHTML = ''; // Clear previous
-      output.appendChild(inputLine);
+    const inputLine = document.createElement('div');
+    inputLine.className = 'line';
+    inputLine.textContent = `C:\\Users\\dev> ${trimmedInput}`;
+    output.innerHTML = '';
+    output.appendChild(inputLine);
 
+    if (trimmedInput === '4') {
+      window.open('https://telegra.ph/Declaration-of-Non-Liability-for-Online-Presence-06-06', '_blank');
+    } else if (responses[trimmedInput]) {
       const responseBlock = document.createElement('pre');
       responseBlock.className = 'line';
       responseBlock.textContent = responses[trimmedInput];
       output.appendChild(responseBlock);
+    }
 
-      // Scroll terminal
-      terminal.scrollTop = terminal.scrollHeight;
+    terminal.scrollTop = terminal.scrollHeight;
 
-      // Play audio once on first user input
-      if (!hasPlayedAudio) {
-        audio.volume = 0.6;
-        audio.play().catch(err => console.error('Audio failed:', err));
-        hasPlayedAudio = true;
-      }
+    if (!hasPlayedAudio) {
+      audio.volume = 0.6;
+      audio.play().catch(err => console.error('Audio failed:', err));
+      hasPlayedAudio = true;
     }
 
     inputBuffer = '';
     userInput.textContent = '';
-  }
-
-  // Handle BACKSPACE
-  else if (key === 'Backspace') {
+  } else if (key === 'Backspace') {
     inputBuffer = inputBuffer.slice(0, -1);
     userInput.textContent = inputBuffer;
-  }
-
-  // Handle other keys
-  else if (key.length === 1) {
+  } else if (key.length === 1) {
     inputBuffer += key;
     userInput.textContent = inputBuffer;
   }
