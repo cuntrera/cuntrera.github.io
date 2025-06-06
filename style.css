@@ -1,54 +1,33 @@
-/* Remove @font-face block completely */
-/* @font-face {
-  font-family: 'RoyalInitialen';
-  src: url('RoyalInitialen.ttf') format('truetype');
-} */
-
 body {
-  margin: 0;
-  padding: 0;
   background-color: black;
   color: white;
-  font-family: 'Courier New', Courier, monospace;
-  overflow: hidden;
-}
-
-#terminal {
-  padding: 20px;
-  height: 100vh;
-  overflow-y: scroll;
+  font-family: monospace;
+  margin: 0;
+  padding: 1rem;
+  overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
-
-#terminal::-webkit-scrollbar {
+body::-webkit-scrollbar {
   display: none;
 }
 
 .line {
   white-space: pre-wrap;
+  line-height: 1.5;
 }
 
-#input-line {
-  display: flex;
-  white-space: pre-wrap;
+.command-line {
+  margin-top: 1rem;
 }
 
-.prompt {
-  margin-right: 5px;
-}
-
-.cursor {
-  animation: blink 1s step-start infinite;
+.cursor::after {
+  content: '_';
+  animation: blink 1s steps(2, start) infinite;
 }
 
 @keyframes blink {
-  50% { opacity: 0; }
-}
-
-/* Remove styling from .cuntrera entirely */
-.cuntrera {
-  font-family: inherit;
-  font-size: inherit;
-  letter-spacing: inherit;
+  to {
+    visibility: hidden;
+  }
 }
