@@ -1,30 +1,22 @@
-@font-face {
-  font-family: 'RoyalInitialen';
-  src: url('RoyalInitialen.ttf') format('truetype');
-}
-
 body {
   background-color: black;
   color: white;
-  font-family: 'Consolas', monospace;
+  font-family: 'Courier New', monospace;
   margin: 0;
-  padding: 20px;
-  overflow: hidden;
+  padding: 1rem;
+  overflow-x: hidden;
 }
 
 #terminal {
   white-space: pre-wrap;
-  line-height: 1.4;
-  max-height: 100vh;
-  overflow-y: auto;
-  padding-right: 10px;
+  word-wrap: break-word;
 }
 
 .line {
-  display: block;
+  line-height: 1.5em;
 }
 
-#cursor {
+.blinker {
   animation: blink 1s step-start infinite;
 }
 
@@ -33,3 +25,4 @@ body {
     opacity: 0;
   }
 }
+
