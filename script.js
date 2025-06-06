@@ -1,17 +1,11 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const output = document.getElementById("output");
-  const prompt = document.getElementById("prompt");
-  const cursor = prompt.querySelector(".cursor");
+const output = document.getElementById("output");
+const prompt = document.querySelector(".cursor");
 
-  cursor.focus();
-
-  const responses = {
-    "1": `
-- PRIMARY IDENT: cuntrera
+const responses = {
+  "1": `- PRIMARY IDENT: cuntrera
 - ACTIVE SINCE: 2016
 
 [ CORE SKILLS ]
-
 • Advanced Reverse Engineering:
   - Custom shellcode development (x86/x64/ARM)
   - Polymorphic payload engines
@@ -32,12 +26,17 @@ document.addEventListener("DOMContentLoaded", () => {
   - Blind injection techniques
   - CMS/API vulnerability research
 `,
-    "2": `
-- Discord for casual communications/coding projects
+
+  "2": `- Discord for casual communications/coding projects
 - For serious communications Press [P] to show PGP key
 `,
-    "p": `
------BEGIN PGP PUBLIC KEY BLOCK-----
+
+  "3": `- Air gapped development
+- Hardware tokens (YubiHSM)
+- Compartmentalized environments
+`,
+
+  "p": `-----BEGIN PGP PUBLIC KEY BLOCK-----
 mDMEaEJaFBYJKwYBBAHaRw8BAQdACwa2xDEFWFBm2taqfG7fZMvOHH2+TgWWrPvU
 fhngqT+0IWN1bnRyZXJhIDxpdHNoZWN0b3IxOTkwQGdtYWkuY29tPoiZBBMWCgBB
 FiEEp1uZDtAUxG665eZZKotvgNvZ4qkFAmhCWhQCGwMFCQWkexwFCwkIBwICIgIG
@@ -48,32 +47,43 @@ z6YOuDgEaEJaFBIKKwYBBAGXVQEFAQEHQP0XUTlzy0JqH879B15jaqhc1geZpDs7
 WhQCGwwFCQWkexwACgkQKotvgNvZ4qlCYgD+Oh2BSDbm79JcW8baD0iTfrgfnMN1
 W0s+fr+Up9d0IuUBAJjXYakON/5BqEEktUhwUGc+jO7LpbOughJBrH6zeGIB
 =yyk0
------END PGP PUBLIC KEY BLOCK-----
-`
-  };
+-----END PGP PUBLIC KEY BLOCK-----`
+};
 
-  cursor.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      const input = cursor.innerText.trim().toLowerCase();
+prompt.focus();
 
-      const newBlock = document.createElement("div");
-      newBlock.classList.add("line");
-      newBlock.innerHTML = `C:\\Users\\dev&gt; ${input}`;
-      output.appendChild(newBlock);
+prompt.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    const input = prompt.innerText.trim().toLowerCase();
+    const line = document.createElement("div");
+    line.classList.add("line");
+    line.textContent = `C:\\Users\\dev> ${input}`;
+    output.appendChild(line);
 
-      const response = responses[input];
-      if (response) {
-        const result = document.createElement("div");
-        result.classList.add("line");
-        result.innerText = response.trim();
-        output.appendChild(result);
-      }
-
-      cursor.innerText = "";
-      window.scrollTo(0, document.body.scrollHeight);
+    if (responses[input]) {
+      const response = document.createElement("div");
+      response.classList.add("line");
+      response.innerText = responses[input];
+      output.appendChild(response);
+    } else {
+      const error = document.createElement("div");
+      error.classList.add("line");
+      error.textContent = `'${input}' is not recognized as an internal or external command.`;
+      output.appendChild(error);
     }
-  });
+
+    const newPrompt = document.createElement("div");
+    newPrompt.classList.add("line");
+    newPrompt.innerHTML = `C:\\Users\\dev&gt; <span class="cursor" contenteditable="true"></span>`;
+    output.appendChild(newPrompt);
+
+    prompt.removeEventListener("keydown", arguments.callee);
+    document.querySelector(".cursor:last-child").focus();
+    prompt = document.querySelector(".cursor:last-child");
+    prompt.addEventListener("keydown", arguments.callee);
+  }
 });
+
 
 
