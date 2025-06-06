@@ -1,5 +1,6 @@
 const input = document.getElementById('input');
 const terminal = document.getElementById('terminal');
+const output = document.getElementById('output');
 
 let buffer = "";
 
@@ -11,7 +12,9 @@ document.addEventListener('keydown', (e) => {
   }
 
   if (e.key === "Enter") {
-    handleCommand(buffer.trim());
+    const command = buffer.trim().toLowerCase();
+    appendCommand(command);
+    handleCommand(command);
     buffer = "";
     input.textContent = "";
     return;
@@ -23,18 +26,23 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
+function appendCommand(cmd) {
+  const line = document.createElement("div");
+  line.classList.add("line");
+  line.textContent = "C:\\Users\\dev> " + cmd;
+  output.innerHTML = ""; // Clear previous content
+  output.appendChild(line);
+}
+
 function appendLine(text) {
   const line = document.createElement("div");
   line.classList.add("line");
   line.textContent = text;
-  terminal.appendChild(line);
-  window.scrollTo(0, document.body.scrollHeight);
+  output.appendChild(line);
 }
 
 function handleCommand(cmd) {
-  appendLine("C:\\Users\\dev> " + cmd);
-
-  switch (cmd.toLowerCase()) {
+  switch (cmd) {
     case "1":
       appendLine("- PRIMARY IDENT: cuntrera");
       appendLine("- ACTIVE SINCE: 2016\n");
@@ -87,7 +95,4 @@ function handleCommand(cmd) {
       appendLine(`'${cmd}' is not recognized as an internal or external command.`);
       break;
   }
-
-  appendLine(""); // Blank line after output
 }
-
