@@ -1,49 +1,140 @@
-const inputSpan = document.getElementById("cmd-input");
-const output = document.getElementById("output");
-let command = "";
+document.addEventListener('DOMContentLoaded', function () {
+  const terminal = document.getElementById('terminal');
+  const cursor = document.createElement('span');
+  cursor.classList.add('cursor');
+  cursor.textContent = ' ';
+  terminal.appendChild(cursor);
+  terminal.focus();
 
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Backspace") {
-    command = command.slice(0, -1);
-  } else if (e.key.length === 1) {
-    command += e.key;
-  } else if (e.key === "Enter") {
-    handleCommand(command);
-    command = "";
+  const audio = new Audio('sound.mp3');
+  audio.loop = true;
+  audio.volume = 0.4;
+  audio.play();
+
+  let currentLine = '';
+  let outputHistory = [];
+  let scrollIndex = 0;
+
+  const whoamiContent = `
+███████████████████████████████████████
+█                                     █
+█             Cuntrera               █
+█                                     █
+███████████████████████████████████████
+
+- PRIMARY IDENT: Cuntrera (OpSec handle)
+- ACTIVE SINCE: 2016
+
+[ CORE SKILLS ]
+• Advanced Reverse Engineering:
+  - Custom shellcode development (x86/x64/ARM)
+  - Polymorphic payload engines
+  - Anti-sandbox techniques
+
+• Network Operations:
+  - C2 infrastructure architecture
+  - DNS/ICMP covert channels
+  - Cloud provider exploitation (AWS/Azure/GCP)
+
+• Human Exploitation:
+  - Targeted social engineering frameworks
+  - OSINT-driven pretext development
+  - Technical deception systems
+
+• Web Intrusion:
+  - Advanced Google dorking (GHDB extended)
+  - Blind injection techniques
+  - CMS/API vulnerability research
+`;
+
+  const networkContent = `
+[ NETWORK - Secure Comms ]
+
+• PGP (4096-bit RSA)
+• Signal Protocol
+• OTR Messaging
+• Encrypted SMTP relays
+• DNS over HTTPS (DoH)
+• Blockchain-based messaging (experimental)
+`;
+
+  const opsecContent = `
+[ OPSEC - Protocols ]
+
+• Air-gapped development
+• Hardware tokens (YubiHSM, Nitrokey)
+• Isolated VMs with no persistence
+• VPN chaining + Tor
+• MAC spoofing, randomized
+• Time-based traffic obfuscation
+`;
+
+  function addOutput(text) {
+    const line = document.createElement('div');
+    line.className = 'output';
+    line.textContent = text;
+    terminal.insertBefore(line, cursor);
+    outputHistory.push(line);
+    scrollIndex = outputHistory.length - 1;
   }
-  inputSpan.textContent = command;
+
+  function updatePrompt() {
+    const prompt = document.createElement('div');
+    prompt.className = 'prompt-line';
+    prompt.textContent = 'C:\\Users\\dev> ';
+    terminal.insertBefore(prompt, cursor);
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Backspace') {
+      e.preventDefault();
+      currentLine = currentLine.slice(0, -1);
+      updateCurrentInput();
+    } else if (e.key === 'Enter') {
+      addOutput('C:\\Users\\dev> ' + currentLine);
+      processCommand(currentLine.trim());
+      currentLine = '';
+      updatePrompt();
+      updateCurrentInput();
+    } else if (e.key.length === 1) {
+      currentLine += e.key;
+      updateCurrentInput();
+    } else if (e.key === 'ArrowUp') {
+      if (scrollIndex > 0) scrollIndex--;
+      outputHistory[scrollIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else if (e.key === 'ArrowDown') {
+      if (scrollIndex < outputHistory.length - 1) scrollIndex++;
+      outputHistory[scrollIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+
+  function updateCurrentInput() {
+    let existing = terminal.querySelector('.input-line');
+    if (existing) terminal.removeChild(existing);
+
+    const line = document.createElement('div');
+    line.className = 'input-line';
+    line.textContent = 'C:\\Users\\dev> ' + currentLine;
+    terminal.insertBefore(line, cursor);
+  }
+
+  function processCommand(cmd) {
+    if (cmd === '1') {
+      addOutput(whoamiContent);
+    } else if (cmd === '2') {
+      addOutput(networkContent);
+    } else if (cmd === '3') {
+      addOutput(opsecContent);
+    } else {
+      addOutput(`'${cmd}' is not recognized as an internal or external command`);
+    }
+  }
+
+  // Initial prompt
+  addOutput('Microsoft Windows [Version 10.0.19045.5854]');
+  addOutput('(c) Microsoft Corporation. All rights reserved.\n');
+  addOutput('[1] WHOAMI - Technical Profile');
+  addOutput('[2] NETWORK - Secure Comms');
+  addOutput('[3] OPSEC - Protocols\n');
+  updatePrompt();
 });
-
-function handleCommand(cmd) {
-  let out = "";
-
-  switch (cmd.trim()) {
-    case "0":
-      out = "Alias: buccelleta\nOccupation: ethereal net-being\nLinks: press 1\n";
-      break;
-    case "1":
-      out = `
-        <img id="pfp" src="pfp.png" alt="pfp"/>\n
-        <a class="link-button" href="https://twitter.com/YOUR_HANDLE" target="_blank">Twitter</a>
-        <a class="link-button" href="https://github.com/YOUR_HANDLE" target="_blank">GitHub</a>
-        <a class="link-button" href="https://t.me/YOUR_HANDLE" target="_blank">Telegram</a>
-        <a class="link-button" href="https://linktr.ee/YOUR_HANDLE" target="_blank">Linktree</a>
-        <a class="link-button" href="https://etherscan.io/address/YOUR_CRYPTO_ADDR" target="_blank">ETH Wallet</a>
-      `;
-      break;
-    default:
-      out = `Unknown command: ${cmd}`;
-  }
-
-  const outBlock = document.createElement("div");
-  outBlock.innerHTML = out.replace(/\n/g, "<br>");
-  output.appendChild(outBlock);
-
-  const newLine = document.createElement("div");
-  newLine.className = "line";
-  newLine.innerHTML = `C:\\Users\\dev&gt;<span id="cmd-input"></span><span class="cursor">_</span>`;
-  document.querySelector(".terminal").appendChild(newLine);
-
-  document.getElementById("cmd-input").textContent = "";
-}
-
