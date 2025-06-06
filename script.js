@@ -4,7 +4,7 @@ const cursor = document.getElementById('cursor');
 let stage = 0;
 
 document.addEventListener('keydown', (e) => {
-  if (stage === 0 && (e.key === '1' || e.key === '2' || e.key === '3')) {
+  if (stage === 0 && ['1', '2', '3'].includes(e.key)) {
     cursor.remove();
     const command = `C:\\Users\\dev> ${e.key}`;
     terminal.innerHTML += `\n${command}`;
@@ -14,7 +14,7 @@ document.addEventListener('keydown', (e) => {
     }
 
     if (e.key === '2') {
-      terminal.innerHTML += `\n\n[ NETWORK - Communications ]\nPress [P] to show PGP key`;
+      terminal.innerHTML += `\n\n[ NETWORK - Communications ]\nAll serious inquiries and conversations are to be had **over PGP only**. Do not communicate over clearnet.\n\nDiscord: @(id):1184187714862592014\n\nPress [P] to show PGP public key.`;
       stage = 'awaitingPGP';
     }
 
