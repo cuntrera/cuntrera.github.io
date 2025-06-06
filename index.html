@@ -1,37 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terminal Interface</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="pfp.png" type="image/png" />
-  <style>
-    @font-face {
-      font-family: 'RoyalInitialen';
-      src: url('RoyalInitialen.ttf') format('truetype');
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Cuntrera Terminal</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <audio autoplay loop>
-    <source src="sound.mp3" type="audio/mpeg" />
-  </audio>
-
-  <div class="terminal">
-    <div class="output" id="output">
-      <p>Microsoft Windows [Version 10.0.19045.5854]</p>
-      <p>(c) Microsoft Corporation. All rights reserved.</p>
-      <br />
-      <p>[1] WHOAMI - Technical Profile</p>
-      <p>[2] NETWORK - Secure Comms</p>
-      <p>[3] OPSEC - Protocols</p>
-      <br />
-      <p>C:\Users\dev&gt; <span id="blinker">_</span></p>
-    </div>
-    <input type="text" id="command" autofocus />
-  </div>
-
+  <div id="terminal" tabindex="0"></div>
+  <audio src="sound.mp3" autoplay loop></audio>
   <script src="script.js"></script>
 </body>
 </html>
