@@ -1,13 +1,15 @@
+/* Basic reset */
 body {
   margin: 0;
   padding: 0;
-  background: black;
-  color: #e0e0e0;
-  font-family: monospace;
+  background-color: #000;
+  color: #ffffff;
+  font-family: Consolas, monospace;
   font-size: 14px;
   overflow: hidden;
 }
 
+/* Terminal window */
 #terminal {
   padding: 20px;
   white-space: pre-wrap;
@@ -21,21 +23,31 @@ body {
   display: none;
 }
 
+/* Each terminal line */
 .line {
-  line-height: 1.5;
+  color: #ffffff;
+  line-height: 1.4;
 }
 
+/* Command input line, cursor baseline aligned */
 .command-line {
-  display: flex;
-  align-items: baseline;
+  display: inline;
+  font-family: inherit;
+  color: #ffffff;
 }
 
+/* Blinking underscore cursor */
 .cursor {
-  color: #33ff33;
-  animation: blink 1s step-end infinite;
+  display: inline-block;
+  width: 8px;
+  height: 1em;
+  background-color: #ffffff;
+  animation: blink 1s steps(1) infinite;
+  vertical-align: baseline;
+  margin-left: 1px;
 }
 
 @keyframes blink {
-  from, to { opacity: 0; }
+  0%, 100% { opacity: 0; }
   50% { opacity: 1; }
 }
