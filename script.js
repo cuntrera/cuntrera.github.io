@@ -1,127 +1,79 @@
-const input = document.getElementById('input');
-const terminal = document.getElementById('terminal');
-const output = document.getElementById('output');
+document.addEventListener("DOMContentLoaded", () => {
+  const output = document.getElementById("output");
+  const prompt = document.getElementById("prompt");
+  const cursor = prompt.querySelector(".cursor");
 
-let buffer = "";
+  cursor.focus();
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === "Backspace") {
-    buffer = buffer.slice(0, -1);
-    input.textContent = buffer;
-    return;
-  }
+  const responses = {
+    "1": `
+- PRIMARY IDENT: cuntrera
+- ACTIVE SINCE: 2016
 
-  if (e.key === "Enter") {
-    const command = buffer.trim().toLowerCase();
-    printCommand(command); // Print the prompt + command entered
-    runCommand(command);   // Run associated logic
-    buffer = "";
-    input.textContent = "";
-    return;
-  }
+[ CORE SKILLS ]
 
-  if (e.key.length === 1) {
-    buffer += e.key;
-    input.textContent = buffer;
-  }
+• Advanced Reverse Engineering:
+  - Custom shellcode development (x86/x64/ARM)
+  - Polymorphic payload engines
+  - Anti-sandbox techniques
+
+• Network Operations:
+  - C2 infrastructure architecture
+  - DNS/ICMP covert channels
+  - Cloud provider exploitation (AWS/Azure/GCP)
+
+• Human Exploitation:
+  - Targeted social engineering frameworks
+  - OSINT-driven pretext development
+  - Technical deception systems
+
+• Web Intrusion:
+  - Advanced Google dorking (GHDB extended)
+  - Blind injection techniques
+  - CMS/API vulnerability research
+`,
+    "2": `
+- Discord for casual communications/coding projects
+- For serious communications Press [P] to show PGP key
+`,
+    "p": `
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+mDMEaEJaFBYJKwYBBAHaRw8BAQdACwa2xDEFWFBm2taqfG7fZMvOHH2+TgWWrPvU
+fhngqT+0IWN1bnRyZXJhIDxpdHNoZWN0b3IxOTkwQGdtYWkuY29tPoiZBBMWCgBB
+FiEEp1uZDtAUxG665eZZKotvgNvZ4qkFAmhCWhQCGwMFCQWkexwFCwkIBwICIgIG
+FQoJCAsCBBYCAwECHgcCF4AACgkQKotvgNvZ4qm7EAEAows8gULc+Ebs8GKlv9rD
+PMAHJU1NEP+DmqyJhDJGF1oA/Arky4QujC/iUUN3MTc83qWCDNOSmUkRNnDJnNNV
+z6YOuDgEaEJaFBIKKwYBBAGXVQEFAQEHQP0XUTlzy0JqH879B15jaqhc1geZpDs7
+6FPfngyQwdtqAwEIB4h+BBgWCgAmFiEEp1uZDtAUxG665eZZKotvgNvZ4qkFAmhC
+WhQCGwwFCQWkexwACgkQKotvgNvZ4qlCYgD+Oh2BSDbm79JcW8baD0iTfrgfnMN1
+W0s+fr+Up9d0IuUBAJjXYakON/5BqEEktUhwUGc+jO7LpbOughJBrH6zeGIB
+=yyk0
+-----END PGP PUBLIC KEY BLOCK-----
+`
+  };
+
+  cursor.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const input = cursor.innerText.trim().toLowerCase();
+
+      const newBlock = document.createElement("div");
+      newBlock.classList.add("line");
+      newBlock.innerHTML = `C:\\Users\\dev&gt; ${input}`;
+      output.appendChild(newBlock);
+
+      const response = responses[input];
+      if (response) {
+        const result = document.createElement("div");
+        result.classList.add("line");
+        result.innerText = response.trim();
+        output.appendChild(result);
+      }
+
+      cursor.innerText = "";
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+  });
 });
 
-function printCommand(cmd) {
-  const line = document.createElement("div");
-  line.classList.add("line");
-  line.textContent = "C:\\Users\\dev> " + cmd;
-  output.appendChild(line);
-}
-
-function appendLine(text = "") {
-  const line = document.createElement("div");
-  line.classList.add("line");
-  line.textContent = text;
-  output.appendChild(line);
-}
-
-function runCommand(cmd) {
-  switch (cmd) {
-    case "1":
-      appendLine("- PRIMARY IDENT: cuntrera");
-      appendLine("- ACTIVE SINCE: 2016");
-      appendLine("");
-      appendLine("[ CORE SKILLS ]");
-      appendLine("• Advanced Reverse Engineering:");
-      appendLine("  - Custom shellcode development (x86/x64/ARM)");
-      appendLine("  - Polymorphic payload engines");
-      appendLine("  - Anti-sandbox techniques");
-      appendLine("");
-      appendLine("• Network Operations:");
-      appendLine("  - C2 infrastructure architecture");
-      appendLine("  - DNS/ICMP covert channels");
-      appendLine("  - Cloud provider exploitation (AWS/Azure/GCP)");
-      appendLine("");
-      appendLine("• Human Exploitation:");
-      appendLine("  - Targeted social engineering frameworks");
-      appendLine("  - OSINT-driven pretext development");
-      appendLine("  - Technical deception systems");
-      appendLine("");
-      appendLine("• Web Intrusion:");
-      appendLine("  - Advanced Google dorking (GHDB extended)");
-      appendLine("  - Blind injection techniques");
-      appendLine("  - CMS/API vulnerability research");
-      break;
-
-    case "2":
-      appendLine("- Discord for casual communications/coding projects");
-      appendLine("- For serious communications Press [P] to show PGP key");
-      break;
-
-    case "3":
-      appendLine("- Air gapped development");
-      appendLine("- Hardware tokens (YubiHSM)");
-      appendLine("- Compartmentalized environments");
-      break;
-
-    case "p":
-      appendLine("-----BEGIN PGP PUBLIC KEY BLOCK-----");
-      appendLine("mDMEaEJaFBYJKwYBBAHaRw8BAQdACwa2xDEFWFBm2taqfG7fZMvOHH2+TgWWrPvU");
-      appendLine("fhngqT+0IWN1bnRyZXJhIDxpdHNoZWN0b3IxOTkwQGdtYWkuY29tPoiZBBMWCgBB");
-      appendLine("FiEEp1uZDtAUxG665eZZKotvgNvZ4qkFAmhCWhQCGwMFCQWkexwFCwkIBwICIgIG");
-      appendLine("FQoJCAsCBBYCAwECHgcCF4AACgkQKotvgNvZ4qm7EAEAows8gULc+Ebs8GKlv9rD");
-      appendLine("PMAHJU1NEP+DmqyJhDJGF1oA/Arky4QujC/iUUN3MTc83qWCDNOSmUkRNnDJnNNV");
-      appendLine("z6YOuDgEaEJaFBIKKwYBBAGXVQEFAQEHQP0XUTlzy0JqH879B15jaqhc1geZpDs7");
-      appendLine("6FPfngyQwdtqAwEIB4h+BBgWCgAmFiEEp1uZDtAUxG665eZZKotvgNvZ4qkFAmhC");
-      appendLine("WhQCGwwFCQWkexwACgkQKotvgNvZ4qlCYgD+Oh2BSDbm79JcW8baD0iTfrgfnMN1");
-      appendLine("W0s+fr+Up9d0IuUBAJjXYakON/5BqEEktUhwUGc+jO7LpbOughJBrH6zeGIB");
-      appendLine("=yyk0");
-      appendLine("-----END PGP PUBLIC KEY BLOCK-----");
-      break;
-
-    default:
-      appendLine(`'${cmd}' is not recognized as an internal or external command.`);
-      break;
-  }
-
-  // Add space and move prompt after output
-  appendLine(""); // spacing
-  addPrompt();
-}
-
-function addPrompt() {
-  const newInputContainer = document.createElement("div");
-  newInputContainer.classList.add("line");
-
-  const pathSpan = document.createElement("span");
-  pathSpan.textContent = "C:\\Users\\dev> ";
-
-  const inputSpan = document.createElement("span");
-  inputSpan.classList.add("new-input");
-
-  const blinker = document.createElement("span");
-  blinker.classList.add("blinker");
-  blinker.textContent = "_";
-
-  newInputContainer.appendChild(pathSpan);
-  newInputContainer.appendChild(inputSpan);
-  newInputContainer.appendChild(blinker);
-
-  output.appendChild(newInputContainer);
-}
 
