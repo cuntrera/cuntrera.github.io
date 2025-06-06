@@ -76,29 +76,34 @@ document.addEventListener('DOMContentLoaded', function () {
     terminal.insertBefore(line, cursor);
     outputHistory.push(line);
     scrollIndex = outputHistory.length - 1;
+    scrollToBottom();
   }
 
   function updatePrompt() {
     const prompt = document.createElement('div');
-    prompt.className = 'prompt-line';
-    prompt.textContent = 'C:\\Users\\dev> ';
+    prompt.className = 'input-line';
+    prompt.textContent = 'C:\\Users\\dev> ' + currentLine;
     terminal.insertBefore(prompt, cursor);
+  }
+
+  function scrollToBottom() {
+    terminal.scrollTop = terminal.scrollHeight;
   }
 
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Backspace') {
       e.preventDefault();
       currentLine = currentLine.slice(0, -1);
-      updateCurrentInput();
+      updateInputLine();
     } else if (e.key === 'Enter') {
       addOutput('C:\\Users\\dev> ' + currentLine);
       processCommand(currentLine.trim());
       currentLine = '';
       updatePrompt();
-      updateCurrentInput();
+      updateInputLine();
     } else if (e.key.length === 1) {
       currentLine += e.key;
-      updateCurrentInput();
+      updateInputLine();
     } else if (e.key === 'ArrowUp') {
       if (scrollIndex > 0) scrollIndex--;
       outputHistory[scrollIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -108,14 +113,15 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  function updateCurrentInput() {
+  function updateInputLine() {
     let existing = terminal.querySelector('.input-line');
     if (existing) terminal.removeChild(existing);
 
-    const line = document.createElement('div');
-    line.className = 'input-line';
-    line.textContent = 'C:\\Users\\dev> ' + currentLine;
-    terminal.insertBefore(line, cursor);
+    const newLine = document.createElement('div');
+    newLine.className = 'input-line';
+    newLine.textContent = 'C:\\Users\\dev> ' + currentLine;
+    terminal.insertBefore(newLine, cursor);
+    scrollToBottom();
   }
 
   function processCommand(cmd) {
@@ -130,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Initial prompt
+  // Initial screen
   addOutput('Microsoft Windows [Version 10.0.19045.5854]');
   addOutput('(c) Microsoft Corporation. All rights reserved.\n');
   addOutput('[1] WHOAMI - Technical Profile');
