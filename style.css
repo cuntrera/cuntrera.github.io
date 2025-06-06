@@ -11,44 +11,45 @@ body {
   font-family: monospace;
   font-size: 16px;
   overflow: hidden;
+  height: 100vh;
 }
 
 #terminal {
   padding: 20px;
   white-space: pre-wrap;
   outline: none;
+  overflow-y: auto;
+  height: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.output {
-  margin-bottom: 1em;
-  color: white;
+#terminal::-webkit-scrollbar {
+  display: none;
 }
 
-.prompt-line {
-  display: inline;
+.output, .input-line, .prompt-line {
+  margin-bottom: 0.5em;
+  white-space: pre-wrap;
 }
 
 .cursor {
   display: inline-block;
   width: 10px;
   background-color: white;
-  animation: blink 1s step-start infinite;
+  animation: blink 1s steps(1) infinite;
   margin-left: 2px;
+  height: 1em;
+  vertical-align: bottom;
 }
 
 @keyframes blink {
-  50% {
-    background-color: black;
-  }
-}
-
-.hidden {
-  display: none;
+  50% { background-color: transparent; }
 }
 
 .big-header {
   font-family: 'RoyalInitialen', monospace;
-  font-size: 36px;
+  font-size: 32px;
   text-align: center;
-  margin: 20px 0;
+  margin: 10px 0;
 }
