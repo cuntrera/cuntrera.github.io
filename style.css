@@ -1,16 +1,21 @@
+@font-face {
+  font-family: 'RoyalInitialen';
+  src: url('RoyalInitialen.ttf') format('truetype');
+}
+
 body {
   background-color: black;
   color: white;
-  font-family: 'Courier New', monospace;
+  font-family: 'RoyalInitialen', 'Courier New', monospace;
   margin: 0;
   padding: 20px;
   height: 100vh;
   overflow-y: scroll;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 
 body::-webkit-scrollbar {
-  display: none; /* Chrome, Safari */
+  display: none;
 }
 
 #terminal {
@@ -25,7 +30,6 @@ body::-webkit-scrollbar {
   display: inline-block;
   outline: none;
   min-width: 1ch;
-  border: none;
   background: none;
   color: white;
 }
