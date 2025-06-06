@@ -2,10 +2,10 @@ body {
   margin: 0;
   padding: 0;
   background: black;
-  color: #33ff33;
+  color: #e0e0e0;
   font-family: monospace;
   font-size: 14px;
-  overflow: hidden; /* hides scrollbars */
+  overflow: hidden;
 }
 
 #terminal {
@@ -27,17 +27,15 @@ body {
 
 .command-line {
   display: flex;
+  align-items: baseline;
 }
 
 .cursor {
+  color: #33ff33;
   animation: blink 1s step-end infinite;
 }
 
 @keyframes blink {
-  from, to {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
+  from, to { opacity: 0; }
+  50% { opacity: 1; }
 }
