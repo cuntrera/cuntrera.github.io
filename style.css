@@ -1,37 +1,54 @@
 @font-face {
   font-family: 'RoyalInitialen';
-  src: url('fonts/RoyalInitialen.ttf') format('truetype');
+  src: url('RoyalInitialen.ttf') format('truetype');
 }
 
 body {
+  margin: 0;
+  padding: 0;
   background-color: black;
   color: white;
-  font-family: 'Courier New', monospace;
+  font-family: monospace;
+  font-size: 16px;
+  overflow: hidden;
+}
+
+#terminal {
   padding: 20px;
   white-space: pre-wrap;
-  font-size: 16px;
+  outline: none;
 }
 
-.terminal {
-  max-width: 960px;
-  margin: 0 auto;
-}
-
-#title-font {
-  font-family: 'RoyalInitialen', monospace;
-  font-size: 64px;
+.output {
+  margin-bottom: 1em;
   color: white;
-  text-align: center;
-  margin: 40px 0;
+}
+
+.prompt-line {
+  display: inline;
 }
 
 .cursor {
   display: inline-block;
   width: 10px;
-  animation: blink 1s infinite;
+  background-color: white;
+  animation: blink 1s step-start infinite;
+  margin-left: 2px;
 }
 
 @keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+  50% {
+    background-color: black;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.big-header {
+  font-family: 'RoyalInitialen', monospace;
+  font-size: 36px;
+  text-align: center;
+  margin: 20px 0;
 }
