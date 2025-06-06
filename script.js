@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
 █                                     █
 ███████████████████████████████████████
 
-- PRIMARY IDENT: Cuntrera (OpSec handle)
+- PRIMARY IDENT: cuntrera
 - ACTIVE SINCE: 2016
 
 [ CORE SKILLS ]
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
 `;
 
   const networkContent = `
-[ NETWORK - Secure Comms ]
+[ NETWORK - Communications ]
 
 • PGP (4096-bit RSA)
 • Signal Protocol
@@ -136,11 +136,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Initial screen
+  // Initial screen with blank line between menu and first prompt
   addOutput('Microsoft Windows [Version 10.0.19045.5854]');
   addOutput('(c) Microsoft Corporation. All rights reserved.\n');
-  addOutput('[1] WHOAMI - Technical Profile');
-  addOutput('[2] NETWORK - Secure Comms');
-  addOutput('[3] OPSEC - Protocols\n');
+  addOutput('[1] WHOAMI - Tech Info');
+  addOutput('[2] NETWORK - Communications');
+  addOutput('[3] OPSEC - Protocols');
+  addOutput(''); // Blank line between menu and prompt
   updatePrompt();
 });
