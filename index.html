@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Cuntrera Terminal</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>cuntrera</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="pfp.png">
 </head>
 <body>
-  <div id="terminal" tabindex="0"></div>
-  <audio src="sound.mp3" autoplay loop></audio>
+  <audio autoplay loop src="sound.mp3"></audio>
+  <div id="terminal">
+    <div class="line">Microsoft Windows [Version 10.0.19045.5854]</div>
+    <div class="line">(c) Microsoft Corporation. All rights reserved.</div>
+    <br>
+    <div class="line">[1] WHOAMI - Tech Info</div>
+    <div class="line">[2] NETWORK - Communications</div>
+    <div class="line">[3] OPSEC - Protocols</div>
+    <br>
+    <div class="line">C:\Users\dev><span id="cursor">_</span></div>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
