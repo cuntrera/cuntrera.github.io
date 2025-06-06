@@ -4,7 +4,13 @@ body {
   font-family: 'Courier New', monospace;
   margin: 0;
   padding: 20px;
-  overflow: hidden;
+  height: 100vh;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
 }
 
 #terminal {
@@ -19,5 +25,18 @@ body {
   display: inline-block;
   outline: none;
   min-width: 1ch;
-  border-bottom: 1px solid white;
+  border: none;
+  background: none;
+  color: white;
 }
+
+.cursor::after {
+  content: "_";
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
