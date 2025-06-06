@@ -3,25 +3,21 @@ body {
   color: white;
   font-family: 'Courier New', monospace;
   margin: 0;
-  padding: 1rem;
-  overflow: hidden; /* disables scrollbars */
+  padding: 20px;
+  overflow: hidden;
 }
 
 #terminal {
   white-space: pre-wrap;
-  word-wrap: break-word;
 }
 
 .line {
-  line-height: 1.5em;
+  margin-bottom: 10px;
 }
 
-.blinker {
-  animation: blink 1s step-start infinite;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
+.cursor {
+  display: inline-block;
+  outline: none;
+  min-width: 1ch;
+  border-bottom: 1px solid white;
 }
